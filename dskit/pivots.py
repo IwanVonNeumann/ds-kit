@@ -1,7 +1,6 @@
-from typing import Optional
-
 import pandas as pd
 
+from typing import Optional, Union
 from pandas.io.formats.style import Styler
 
 
@@ -14,7 +13,7 @@ def check_empty_values(df: pd.DataFrame, col: str):
     print('zeros: {} ({:.1%})'.format(n_zeros, n_zeros / n))
 
 
-def __thousand_separators(x):
+def __thousand_separators(x: Union[float, int]):
     return '{:,}'.format(x).replace(',', ' ')
 
 
