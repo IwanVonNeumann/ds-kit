@@ -18,12 +18,11 @@ def __thousand_separators(x):
     return '{:,}'.format(x).replace(',', ' ')
 
 
-def get_target_pivot(df: pd.DataFrame, col: str, count_col: str, target_col: str,
-                     revenue_col: Optional[str] = None) -> Styler:
+def get_target_pivot(df: pd.DataFrame, col: str, target_col: str, revenue_col: Optional[str] = None) -> Styler:
     grouped_df = df.groupby(col, observed=True)
 
-    n_count_col = 'n_{}'.format(count_col)
-    p_count_col = '%_{}'.format(count_col)
+    n_count_col = 'n_items'
+    p_count_col = '%_items'
     p_revenue_col = None
 
     summary = grouped_df[target_col].agg([
