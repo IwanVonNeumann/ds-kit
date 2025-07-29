@@ -28,6 +28,7 @@ def enumerate_qcut(x: pd.Series, q=10, process_zeros: bool = False) -> pd.Series
     if process_zeros:
         t = pd.concat(objs=[x_0, t])
 
+    # TODO: separate seros from nans
     if np.nan in d:
         return t.cat.add_categories(0).fillna(0)
     else:
