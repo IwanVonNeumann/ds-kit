@@ -1,0 +1,20 @@
+[build-system]
+requires = ["setuptools>=61.0"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "ds-kit"
+version = "0.1.0"
+description = "A short description of your library"
+readme = "README.md"
+authors = [
+    { name = "IwanVonNeumann", email = "you@example.com" }
+]
+license = { text = "MIT" }
+dependencies = [
+    "numpy",
+    "pandas"
+]
+
+[project.urls]
+"Homepage" = "https://github.com/IwanVonNeumann/ds-kit"
