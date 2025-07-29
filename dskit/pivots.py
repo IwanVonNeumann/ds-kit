@@ -1,5 +1,7 @@
 import pandas as pd
 
+from .config import get_target
+
 from typing import Optional, Union
 from pandas.io.formats.style import Styler
 
@@ -17,7 +19,11 @@ def __thousand_separators(x: Union[float, int]):
     return '{:,}'.format(x).replace(',', ' ')
 
 
-def get_target_pivot(df: pd.DataFrame, col: str, target_col: str, revenue_col: Optional[str] = None) -> Styler:
+def get_target_pivot(df: pd.DataFrame, col: str, target_col: Optional[str] = None,
+                     revenue_col: Optional[str] = None) -> Styler:
+    if target_col is None:
+        target_col = get_target()
+
     grouped_df = df.groupby(col, observed=True)
 
     n_count_col = 'n_items'

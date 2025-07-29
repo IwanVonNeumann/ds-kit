@@ -1,1 +1,1 @@
-from config import set_target
+from .config import set_target
