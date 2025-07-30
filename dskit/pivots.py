@@ -37,6 +37,7 @@ def get_target_pivot(df: pd.DataFrame, col: str, target_col: Optional[str] = Non
 
     summary[p_count_col] = summary[n_count_col] / len(df)
 
+    # TODO: fix revenue col calculation
     target_by_row = summary[target_col] * summary[n_count_col]
 
     if revenue_col is not None:
@@ -47,12 +48,11 @@ def get_target_pivot(df: pd.DataFrame, col: str, target_col: Optional[str] = Non
         summary = summary.set_index(col)
 
     if df[col].dtype == 'object':
-        summary = summary.sort_values(by=target_col, ascending=False)
+        summary = summary.sort_values(by=target_col, ascending=False).reset_index(drop=True)
     else:
         summary = summary.sort_index()
 
-    if summary.index.dtype == 'float':
-        summary.index = summary.index.map('{:.3f}'.format)
+    summary.index += 1
 
     cols_format = {
         target_col: '{:.2f}'.format,
@@ -62,5 +62,10 @@ def get_target_pivot(df: pd.DataFrame, col: str, target_col: Optional[str] = Non
 
     if revenue_col is not None:
         cols_format[p_revenue_col] = '{:.1%}'.format
+
+    summary.set_index(col, drop=True, inplace=True)
+
+    if summary.index.dtype == 'float':
+        summary.index = summary.index.map('{:.3f}'.format)
 
     return summary.style.format(cols_format).background_gradient(axis=0, subset=[target_col], cmap='RdYlGn')
