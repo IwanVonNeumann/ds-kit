@@ -54,8 +54,15 @@ def get_target_pivot(df: pd.DataFrame, col: str, target_col: Optional[str] = Non
     else:
         summary = summary.sort_index(ascending=sort_order)
 
+    target_is_binary = (df[target_col].nunique() == 2)
+
+    if target_is_binary:
+        target_format = '{:.1%}'.format
+    else:
+        target_format = '{:.2f}'.format
+
     cols_format = {
-        target_col: '{:.2f}'.format,
+        target_col: target_format,
         n_count_col: __thousand_separators,
         p_count_col: '{:.1%}'.format,
     }
