@@ -48,11 +48,9 @@ def get_target_pivot(df: pd.DataFrame, col: str, target_col: Optional[str] = Non
         summary[p_revenue_col] = revenue_pivot / revenue_pivot.sum()
 
     if df[col].dtype == 'object':
-        summary = summary.sort_values(by=target_col, ascending=False).reset_index(drop=True)
+        summary = summary.sort_values(by=target_col, ascending=False)
     else:
         summary = summary.sort_index()
-
-    summary.index += 1
 
     cols_format = {
         target_col: '{:.2f}'.format,
