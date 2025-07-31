@@ -2,7 +2,7 @@ import pandas as pd
 
 from .config import get_target
 
-from typing import Optional, Union
+from typing import Optional
 from pandas.io.formats.style import Styler
 
 
@@ -15,8 +15,12 @@ def check_empty_values(df: pd.DataFrame, col: str):
     print('zeros: {} ({:.1%})'.format(n_zeros, n_zeros / n))
 
 
-def __thousand_separators(x: Union[float, int]):
-    return '{:,}'.format(x).replace(',', ' ')
+def __thousand_separators_int(x: int) -> str:
+    return '{:,d}'.format(x).replace(',', ' ')
+
+
+def __thousand_separators_float(x: float) -> str:
+    return '{:,.2f}'.format(x).replace(',', ' ')
 
 
 def get_target_pivot(df: pd.DataFrame, col: str, target_col: Optional[str] = None,
@@ -59,11 +63,11 @@ def get_target_pivot(df: pd.DataFrame, col: str, target_col: Optional[str] = Non
     if target_is_binary:
         target_format = '{:.1%}'.format
     else:
-        target_format = '{:.2f}'.format
+        target_format = __thousand_separators_float
 
     cols_format = {
         target_col: target_format,
-        n_count_col: __thousand_separators,
+        n_count_col: __thousand_separators_int,
         p_count_col: '{:.1%}'.format,
     }
 
