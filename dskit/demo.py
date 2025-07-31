@@ -3,6 +3,8 @@ import pandas as pd
 
 
 def generate_demo_df(size: int) -> pd.DataFrame():
+    np.random.seed(0)
+
     df = pd.DataFrame()
 
     df['client_class'] = np.random.choice(['A', 'B', 'C'], p=[0.05, 0.15, 0.8], size=size)
