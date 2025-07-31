@@ -1,5 +1,5 @@
 # dskit 🛠️
-## A Data Science high level library for business applications
+## A high level Data Science library for business applications
 
 Inspired by the author's experience in building business applications mostly for fintech and gamedev domains.
 
