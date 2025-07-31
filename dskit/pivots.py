@@ -72,7 +72,7 @@ def get_target_pivot(df: pd.DataFrame, col: str, target_col: Optional[str] = Non
     }
 
     if revenue_col is not None:
-        cols_format[revenue_col] = '{:.2f}'.format
+        cols_format[revenue_col] = __thousand_separators_float
         cols_format[p_revenue_col] = '{:.1%}'.format
 
     if summary.index.dtype == 'float':
