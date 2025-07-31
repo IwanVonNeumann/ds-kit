@@ -20,7 +20,7 @@ def __thousand_separators(x: Union[float, int]):
 
 
 def get_target_pivot(df: pd.DataFrame, col: str, target_col: Optional[str] = None,
-                     revenue_col: Optional[str] = None) -> Styler:
+                     revenue_col: Optional[str] = None, positive_target: bool = True) -> Styler:
     if target_col is None:
         target_col = get_target()
 
@@ -47,10 +47,12 @@ def get_target_pivot(df: pd.DataFrame, col: str, target_col: Optional[str] = Non
         summary[revenue_col] = revenue_pivot
         summary[p_revenue_col] = revenue_pivot / revenue_pivot.sum()
 
+    sort_order = not positive_target
+
     if df[col].dtype == 'object':
-        summary = summary.sort_values(by=target_col, ascending=False)
+        summary = summary.sort_values(by=target_col, ascending=sort_order)
     else:
-        summary = summary.sort_index()
+        summary = summary.sort_index(ascending=sort_order)
 
     cols_format = {
         target_col: '{:.2f}'.format,
@@ -65,4 +67,9 @@ def get_target_pivot(df: pd.DataFrame, col: str, target_col: Optional[str] = Non
     if summary.index.dtype == 'float':
         summary.index = summary.index.map('{:.3f}'.format)
 
-    return summary.style.format(cols_format).background_gradient(axis=0, subset=[target_col], cmap='RdYlGn')
+    if positive_target:
+        gradient = 'RdYlGn'
+    else:
+        gradient = 'RdYlGn_r'
+
+    return summary.style.format(cols_format).background_gradient(axis=0, subset=[target_col], cmap=gradient)
